@@ -9,7 +9,7 @@ pub fn parse_field_attributes(
 ) -> impl Iterator<Item = syn::Result<impl Iterator<Item = FieldAttr>>> + '_ {
     attributes
         .iter()
-        .filter(|attr| attr.path.is_ident("tabled"))
+        .filter(|attr| attr.path().is_ident("tabled"))
         .map(|attr| attr.parse_args_with(Punctuated::<FieldAttr, Token![,]>::parse_terminated))
         .map(|result| result.map(IntoIterator::into_iter))
 }
@@ -127,7 +127,7 @@ impl Parse for FieldAttr {
             }
 
             return Err(syn::Error::new(
-                _paren.span,
+                _paren.span.join(),
                 "expected a `string literal` in parenthesis",
             ));
         }

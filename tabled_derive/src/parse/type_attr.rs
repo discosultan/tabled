@@ -8,7 +8,7 @@ pub fn parse_type_attributes(
 ) -> impl Iterator<Item = syn::Result<impl Iterator<Item = TypeAttr>>> + '_ {
     attributes
         .iter()
-        .filter(|attr| attr.path.is_ident("tabled"))
+        .filter(|attr| attr.path().is_ident("tabled"))
         .map(|attr| attr.parse_args_with(Punctuated::<TypeAttr, Token![,]>::parse_terminated))
         .map(|result| result.map(IntoIterator::into_iter))
 }
@@ -90,7 +90,7 @@ impl Parse for TypeAttr {
             }
 
             return Err(syn::Error::new(
-                _paren.span,
+                _paren.span.join(),
                 "expected a `string literal` in parenthesis",
             ));
         }

@@ -184,7 +184,7 @@ fn parse_func_arg(expr: &syn::Expr) -> syn::Result<FuncArg> {
                     val.base10_parse::<usize>().map(FuncArg::Uint)
                 }
             }
-            Lit::Verbatim(val) => Err(syn::Error::new(val.span(), "unsuported argument")),
+            val => Err(syn::Error::new(val.span(), "unsuported argument")),
         },
         syn::Expr::Path(path) => {
             let indent = path.path.get_ident().map(|indent| indent.to_string());

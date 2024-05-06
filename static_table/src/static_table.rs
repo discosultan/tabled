@@ -296,7 +296,7 @@ fn expr_lit_to_string(expr_lit: &ExprLit) -> String {
         Lit::Char(val) => val.value().to_string(),
         Lit::Byte(val) => val.value().to_string(),
         Lit::Bool(val) => val.value().to_string(),
-        Lit::Verbatim(val) => val.to_token_stream().to_string(),
+        val => val.to_token_stream().to_string(),
     }
 }
 
